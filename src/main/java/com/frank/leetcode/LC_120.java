@@ -32,7 +32,7 @@ public class LC_120 {
 
         int len = triangle.size();
 
-        List<Integer>  minResultList = new ArrayList<>(triangle.get(len-1));
+        List<Integer>  minResultList = new ArrayList(triangle.get(len-1));
 
         for (int i = len-2; i >=0; i--) {
 

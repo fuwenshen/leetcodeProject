@@ -75,7 +75,7 @@ public class LC_219 {
 
 
 
-        Set<Integer>  windows = new HashSet<>();
+        Set<Integer>  windows = new HashSet();
 
         for(int i = 0 ; i< nums.length; i++){
             int value = nums[i];
