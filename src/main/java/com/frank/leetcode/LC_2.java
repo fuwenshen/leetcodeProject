@@ -1,6 +1,6 @@
 package com.frank.leetcode;
 
-import com.frank.leetcode.common.ListNode;
+import com.frank.common.ListNode;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -13,8 +13,6 @@ import java.util.Deque;
  * @createTime 2022年02月16日 10:14:00
  */
 public class LC_2 {
-
-
 
 
     public ListNode addTwoNumbers1(ListNode l1, ListNode l2) {

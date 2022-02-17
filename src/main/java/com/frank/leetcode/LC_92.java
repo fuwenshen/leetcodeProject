@@ -1,7 +1,7 @@
 package com.frank.leetcode;
 
-import com.frank.leetcode.common.LeecodeUtil;
-import com.frank.leetcode.common.ListNode;
+import com.frank.common.LeecodeUtil;
+import com.frank.common.ListNode;
 
 /**
  * @author fuwenshen

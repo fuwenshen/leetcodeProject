@@ -1,6 +1,6 @@
 package com.frank.leetcode;
 
-import com.frank.leetcode.common.ListNode;
+import com.frank.common.ListNode;
 
 /**
  * @author fuwenshen
