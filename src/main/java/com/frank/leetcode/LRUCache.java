@@ -18,21 +18,42 @@ import java.util.*;
 public class LRUCache {
 
 
+    public static void main(String[] args) {
+        LRUCache lRUCache = new LRUCache(2);
 
-    Map<Integer, DeListNode> keyMap = new HashMap();
+        // 缓存是 {1=1}
+        lRUCache.put(1, 1);
+        // 缓存是 {1=1, 2=2}
+        lRUCache.put(2, 2);
+        // 返回 1
+        lRUCache.get(1);
+        // 该操作会使得关键字 2 作废，缓存是 {1=1, 3=3}
+        lRUCache.put(3, 3);
+        // 返回 -1 (未找到)
+        lRUCache.get(2);
+        // 该操作会使得关键字 1 作废，缓存是 {4=4, 3=3}
+        lRUCache.put(4, 4);
+        // 返回 -1 (未找到)
+        lRUCache.get(1);
+        // 返回 3
+        lRUCache.get(3);
+        // 返回 4
+        lRUCache.get(4);
 
-    DeListNode head,tail;
+    }
 
+    Map<Integer, Node<Integer,Integer>> keyMap = new HashMap();
+    Node<Integer,Integer> head,tail;
     int capacity;
-
     int count;
-
 
     public LRUCache(int capacity) {
         this.capacity = capacity;
-        DeListNode head =new DeListNode();
-        DeListNode tail = head;
-        count = 0 ;
+        head = new Node();
+        tail = new Node();
+        head.next = tail;
+        tail.pre =head;
+        count = 0;
     }
 
     public int get(int key) {
@@ -41,29 +62,100 @@ public class LRUCache {
             return -1;
         }
 
-
-        DeListNode listNode = keyMap.get(key);
-        int value = listNode.val;
+        Node<Integer,Integer> listNode = keyMap.get(key);
+        int value = listNode.value;
 
         listNode.pre.next = listNode.next;
+        listNode.next.pre = listNode.pre;
         // 换到最前面去
-        ListNode first = head.next;
-        listNode.next  = first;
-        head.next = listNode;
+        putNodeToFirst(listNode);
+
+        System.out.println("getValue "+value);
         return value;
     }
 
     public void put(int key, int value) {
 
-        // 可以存放新数据
-        if(count<capacity){
+        System.out.println("put:"+key +" "+value);
 
+        if(capacity <=0){
+            return;
+        }
 
+        // 1. 判断是否存在
+        if(keyMap.containsKey(key)){
+            Node listNode = keyMap.get(key);
 
+            // 维护节点关系
+            listNode.pre.next = listNode.next;
+            listNode.next.pre = listNode.pre;
 
-
+            // 当前节点移到最前面
+            listNode.value = value;
+            putNodeToFirst(listNode);
+            return;
         }
 
 
+        // 不存在， 查看容器是否满了,未满，可以存放新数据
+        if(count>=capacity) {
+            // 移除最后的元素
+            removeLast();
+
+        }
+
+        // 插入新元素
+        Node<Integer,Integer> node = new Node(key,value);
+        putNodeToFirst(node);
+
+        count ++;
+        keyMap.put(key,node);
+        return;
+    }
+
+
+    private void putNodeToFirst(Node node){
+        node.next = head.next;
+        head.next.pre = node;
+
+        head.next = node;
+        node.pre = head;
+    }
+
+    private void removeLast(){
+        Node lastNode = tail.pre;
+
+        lastNode.pre.next = tail;
+        tail.pre = lastNode.pre;
+        keyMap.remove(lastNode.key);
+        count--;
+
+        lastNode = null;
+    }
+
+
+
+
+    class Node<K,V>{
+        public Node(){
+        }
+        public Node(K key,V value){
+            this.key = key;
+            this.value = value;
+        }
+        K key;
+        V value;
+        Node pre;
+        Node next;
+
+        @Override
+        public String toString() {
+            return "Node{" +
+                    "key=" + key +
+                    ", value=" + value +
+                    ", pre.value=" + ( pre==null? "null": pre.value )+
+                    ", next.value=" + ( next==null? "null": next.value )+
+                    '}';
+        }
     }
 }
