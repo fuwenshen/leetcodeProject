@@ -3,6 +3,8 @@ package com.frank.leetcode;
 import com.frank.common.LeecodeUtil;
 import com.frank.common.ListNode;
 
+import java.util.List;
+
 /**
  * @author fuwenshen
  * @version 1.0.0
@@ -29,72 +31,56 @@ public class LC_92 {
     }
 
 
+
     public ListNode reverseBetween(ListNode head, int left, int right) {
-        if(head == null){
-            return  head;
-        }
 
+        ListNode root = new ListNode();
+        root.next = head;
 
-        ListNode root = new ListNode(0);
-
-        ListNode startTag  = root;
-
-
-        for (int i = 1; i <= left ; i++) {
-            startTag = startTag.next;
-        }
-
-
-        head = startTag.next;
-
-
-        for (int i = left; i <= right ; i++) {
-
-
-
-
-        }
-
-        ListNode curNode  = head;
-        ListNode nextNode = head;
-        ListNode endTag = null;
-        ListNode preTag = null;
-
-
-
-        ListNode preNode = null;
+        ListNode pre = root, next = null;
+        ListNode curr = head;
 
         int index = 1;
-        // 1->2->3->4->5
-        // 1->4->3->2->5
-        while (index < left && curNode != null){
-            index ++;
-            preTag = curNode;
-            curNode = curNode.next;
-        }
 
-        startTag  = curNode;
-
-        while (curNode!=null){
-
-            nextNode = curNode.next;
-
-            curNode.next = preNode;
-
-            if(index >=right){
-                endTag = nextNode;
-                break;
+        while (curr != null) {
+            if (index < left) {
+                pre = curr;
             }
 
-            preNode = curNode;
-            curNode = nextNode;
-            index ++;
+            if (index == right) {
+                next = curr.next;
+                curr.next = null;
+                break;
+            }
+            curr = curr.next;
+            index++;
         }
 
+        ListNode reverseNode = pre.next;
+        pre.next = reverseListNode(reverseNode);
 
-        preTag.next = curNode;
-
-        startTag.next = endTag;
-        return  head;
+        reverseNode.next = next;
+        return root.next;
     }
+
+
+
+    public ListNode reverseListNode(ListNode listNode){
+        ListNode pre = null;
+        ListNode curr = listNode;
+        ListNode next;
+
+
+        while (curr !=null){
+            next =  curr.next;
+            // 翻转节点
+            curr.next = pre;
+            pre = curr;
+            curr = next;
+        }
+
+        return pre;
+    }
+
+
 }
