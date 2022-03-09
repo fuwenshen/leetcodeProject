@@ -23,5 +23,12 @@ public class TreeNode {
         this.right = right;
     }
 
-
+    @Override
+    public String toString() {
+        return "TreeNode{" +
+                "val=" + val +
+                ", left.val=" + ( left==null? "null": left.val )  +
+                ", right.val=" + ( right==null? "null": right.val ) +
+                '}';
+    }
 }
