@@ -4,7 +4,7 @@ package com.frank.sort;
 import java.util.Random;
 
 /**
- * 快速排序
+ * 快速排序 O(nlogn)  O（1）
  */
 public class QuicklySort {
 
