@@ -18,10 +18,46 @@ public class LC_5 {
     public static void main(String[] args) {
         LC_5 lc5 = new LC_5();
 
-        String s = "a";
+        String s = "cbbd";
         String result = lc5.longestPalindrome(s);
 
         System.out.println("result="+result);
+    }
+
+    /**
+     * 动态规划
+     * @param s
+     * @return
+     */
+    public String longestPalindrome(String s) {
+
+        
+        int len = s.length();
+
+        boolean[][] dp = new boolean[len][len];
+
+
+        int a = 0,b=0;
+        int maxLen = 0;
+        for (int i = len-1; i >=0; i--) {
+            for (int j = i; j < len; j++) {
+                if (j - i < 1 || (j - i == 1 || dp[i + 1][j - 1]) && (s.charAt(i) == s.charAt(j))) {
+                    dp[i][j] = true;
+
+                    if (maxLen < j - i + 1) {
+                        maxLen = j - i + 1;
+                        a = i;
+                        b = j;
+                    }
+                } else{
+                    dp[i][j] = false;
+                }
+
+            }
+        }
+
+        return s.substring(a,b+1);
+
     }
 
     /**
@@ -29,7 +65,7 @@ public class LC_5 {
      * @param s
      * @return
      */
-    public String longestPalindrome(String s) {
+    public String longestPalindrome1(String s) {
 
 
         char[] chars = s.toCharArray();
